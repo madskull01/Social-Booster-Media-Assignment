@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Product Report</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #eef2f5;
+    padding: 40px;
+}
+
+.card {
+    max-width: 700px;
+    margin: auto;
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+h2 {
+    text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <h2>Product Price Report</h2>
+    <canvas id="chart"></canvas>
+</div>
+
+<script>
+fetch('/api/report/')
+.then(res => res.json())
+.then(data => {
+    new Chart(document.getElementById('chart'), {
+        type: 'bar',
+        data: {
+            labels: data.names,
+            datasets: [{
+                label: 'Price',
+                data: data.prices,
+                backgroundColor: '#007bff'
+            }]
+        }
+    });
+});
+</script>
+
+</body>
+</html>

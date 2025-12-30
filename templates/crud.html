@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Product CRUD</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    padding: 40px;
+}
+
+.container {
+    max-width: 700px;
+    background: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin: auto;
+}
+
+h2 {
+    text-align: center;
+}
+
+input {
+    width: 48%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.primary {
+    background: #007bff;
+    color: white;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.update {
+    background: #ffc107;
+}
+
+.delete {
+    background: #dc3545;
+    color: white;
+}
+
+.external {
+    background: #28a745;
+    color: white;
+    width: 100%;
+    margin-top: 10px;
+}
+
+li {
+    list-style: none;
+    background: #f8f9fa;
+    padding: 10px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 4px;
+}
+
+pre {
+    background: #f1f1f1;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 13px;
+    overflow-x: auto;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Product CRUD</h2>
+
+    <input id="name" placeholder="Product name">
+    <input id="price" type="number" placeholder="Price">
+
+    <button class="primary" onclick="createProduct()">Add Product</button>
+
+    <ul id="list"></ul>
+
+    <hr>
+
+    <h3>External API Test</h3>
+    <hr>
+
+<h3>External API Data (Third-Party)</h3>
+<button class="external" onclick="loadExternal()">Fetch External Data</button>
+
+<div id="externalBox" style="
+    margin-top:10px;
+    padding:10px;
+    background:#f8f9fa;
+    border-radius:5px;
+    display:none;">
+    
+    <p><b>User ID:</b> <span id="extUser"></span></p>
+    <p><b>Post ID:</b> <span id="extId"></span></p>
+    <p><b>Title:</b></p>
+    <p id="extTitle"></p>
+    <p><b>Body:</b></p>
+    <p id="extBody"></p>
+</div>
+
+
+</div>
+
+<script>
+function loadProducts() {
+    fetch('/api/list/')
+        .then(res => res.json())
+        .then(data => {
+            const list = document.getElementById('list');
+            list.innerHTML = '';
+            data.forEach(p => {
+                list.innerHTML += `
+                <li>
+                    <span>${p.name} - ₹${p.price}</span>
+                    <span>
+                        <button class="update" onclick="updateProduct(${p.id})">Update</button>
+                        <button class="delete" onclick="deleteProduct(${p.id})">Delete</button>
+                    </span>
+                </li>`;
+            });
+        });
+}
+
+function createProduct() {
+    const nameInput = document.getElementById('name');
+    const priceInput = document.getElementById('price');
+
+    fetch('/api/create/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: nameInput.value,
+            price: parseInt(priceInput.value)
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log('Create:', data);
+        nameInput.value = '';
+        priceInput.value = '';
+        loadProducts();
+    })
+    .catch(err => console.error(err));
+}
+
+function updateProduct(id) {
+    const newPrice = prompt("Enter new price");
+    if (!newPrice) return;
+
+    fetch(`/api/update/${id}/`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ price: parseInt(newPrice) })
+    }).then(loadProducts);
+}
+
+function deleteProduct(id) {
+    if (!confirm("Delete product?")) return;
+
+    fetch(`/api/delete/${id}/`, { method: 'DELETE' })
+        .then(loadProducts);
+}
+function loadExternal() {
+    fetch('/api/external/')
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById('externalBox').style.display = 'block';
+            document.getElementById('extUser').textContent = data.userId;
+            document.getElementById('extId').textContent = data.id;
+            document.getElementById('extTitle').textContent = data.title;
+            document.getElementById('extBody').textContent = data.body;
+        })
+        .catch(err => {
+            alert("Failed to load external API");
+            console.error(err);
+        });
+}
+
+loadProducts();
+</script>
+
+
+</body>
+</html>
