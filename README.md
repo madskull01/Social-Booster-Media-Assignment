@@ -29,18 +29,30 @@ This is a simple Django-based CRUD application built to demonstrate:
 
 ## How to Run the Project Locally
 
+<<<<<<< HEAD
 1. Create a virtual environment
 python -m venv venv
 venv\Scripts\activate
 
 2. Install dependencies
+=======
+1. Create a virtual environment<br>
+python -m venv venv<br>
+venv\Scripts\activate
+
+2. Install dependencies<br>
+>>>>>>> 008f26853e51a00217ff5a91a1721e37e05c4f8b
 pip install django psycopg2-binary requests
 
 ---
 
 ## Database Configuration (Supabase)
 
+<<<<<<< HEAD
 Update settings.py with your Supabase PostgreSQL credentials:
+=======
+Update settings.py with your Supabase PostgreSQL credentials:<br><br>
+>>>>>>> 008f26853e51a00217ff5a91a1721e37e05c4f8b
 
 DATABASES = {
     'default': {
@@ -60,7 +72,11 @@ DATABASES = {
 
 ## Run Migrations
 
+<<<<<<< HEAD
 python manage.py makemigrations
+=======
+python manage.py makemigrations<br>
+>>>>>>> 008f26853e51a00217ff5a91a1721e37e05c4f8b
 python manage.py migrate
 
 ---
