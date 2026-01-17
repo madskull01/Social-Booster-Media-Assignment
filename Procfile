@@ -1,1 +1,1 @@
-web: gunicorn basic_django_project_POSTGRES_FINAL.wsgi
+web: gunicorn basic_project.wsgi
