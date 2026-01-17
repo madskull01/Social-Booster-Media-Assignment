@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -6,7 +7,7 @@ SECRET_KEY = 'dev'
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -47,21 +48,35 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'basic_project.wsgi.application'
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'postgres',
+#         'USER': 'postgres.dboumksfmrvhuilylrqr',
+#         'PASSWORD': 'RJxyS7Zr7otmG9js',
+#         'HOST': 'aws-1-ap-southeast-1.pooler.supabase.com',
+#         'PORT': '5432',
+#         'OPTIONS': {
+#             'sslmode': 'require',
+#         },
+#     }
+# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres.dboumksfmrvhuilylrqr',
-        'PASSWORD': 'RJxyS7Zr7otmG9js',
-        'HOST': 'aws-1-ap-southeast-1.pooler.supabase.com',
-        'PORT': '5432',
+        'NAME': os.getenv('postgres'),
+        'USER': os.getenv('postgres.dboumksfmrvhuilylrqr'),
+        'PASSWORD': os.getenv('RJxyS7Zr7otmG9js'),
+        'HOST': os.getenv('aws-1-ap-southeast-1.pooler.supabase.com'),
+        'PORT': os.getenv('aws-1-ap-southeast-1.pooler.supabase.com', '5432'),
         'OPTIONS': {
             'sslmode': 'require',
         },
     }
 }
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

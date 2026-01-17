@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 from .models import Product
 
-# ---------- HTML PAGES ----------
+
 def crud_page(request):
     return render(request, 'crud.html')
 
@@ -13,7 +13,7 @@ def chart_page(request):
     return render(request, 'chart.html')
 
 
-# ---------- CRUD APIs ----------
+
 @csrf_exempt
 def create(request):
     if request.method != 'POST':
@@ -53,7 +53,6 @@ def delete(request, id):
     return JsonResponse({'message': 'deleted'})
 
 
-# ---------- EXTERNAL API ----------
 def external(request):
     response = requests.get(
         "https://jsonplaceholder.typicode.com/posts/1",
@@ -62,7 +61,7 @@ def external(request):
     return JsonResponse(response.json(), safe=False)
 
 
-# ---------- REPORT ----------
+
 def report(request):
     data = Product.objects.all()
     return JsonResponse({

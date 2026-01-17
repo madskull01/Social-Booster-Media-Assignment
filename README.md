@@ -1,29 +1,89 @@
-# Basic Django CRUD Application
+# Django CRUD Application
 
-## Tech Stack
-- Python
-- Django
-- PostgreSQL
-- HTML, JavaScript
-- Chart.js
+This is a simple Django-based CRUD application built to demonstrate:
+
+- Create, Read, Update, Delete (CRUD) operations using REST-style APIs
+- PostgreSQL database using Supabase
+- Third-party API integration
+- Data visualization using Chart.js
+- HTML and JavaScript frontend served by Django
+
+---
 
 ## Features
-- REST-style CRUD APIs (no serializers, no DRF)
-- PostgreSQL database integration
-- Third-party API integration (CoinDesk)
-- Simple HTML UI for CRUD operations
-- Data visualization using Chart.js
 
-## Run Instructions
-pip install django psycopg2 requests
+- Add, view, update, and delete products
+- PostgreSQL database hosted on Supabase
+- External API data fetched and displayed on the UI
+- Chart.js bar chart showing product prices
+- Clean and simple user interface
+
+---
+
+## Tech Stack
+
+- Backend: Django (Python)
+- Frontend: HTML, CSS, JavaScript
+- Database: PostgreSQL (Supabase)
+- Charts: Chart.js
+
+## How to Run the Project Locally
+
+1. Create a virtual environment
+python -m venv venv
+venv\Scripts\activate
+
+2. Install dependencies
+pip install django psycopg2-binary requests
+
+---
+
+## Database Configuration (Supabase)
+
+Update settings.py with your Supabase PostgreSQL credentials:
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres.dboumksfmrvhuilylrqr',
+        'PASSWORD': 'YOUR_SUPABASE_PASSWORD',
+        'HOST': 'aws-1-ap-southeast-1.pooler.supabase.com',
+        'PORT': '5432',
+        'OPTIONS': {
+            'sslmode': 'require',
+        },
+    }
+}
+
+---
+
+## Run Migrations
+
 python manage.py makemigrations
 python manage.py migrate
+
+---
+
+## Start the Server
+
 python manage.py runserver
 
+Open in browser:
+http://127.0.0.1:8000/api/
+
+http://127.0.0.1:8000/api/chart/
+
 ## API Endpoints
-POST   /api/create/
-GET    /api/list/
-PUT    /api/update/<id>/
-DELETE /api/delete/<id>/
-GET    /api/report/
-GET    /api/external/
+
+- GET /api/list/ – List products
+- POST /api/create/ – Create product
+- PUT /api/update/<id>/ – Update product
+- DELETE /api/delete/<id>/ – Delete product
+- GET /api/report/ – Chart data
+- GET /api/external/ – External API data
+- GET /api/chart/ – Chart page
+
+## Author
+
+Rohit Tulshiramji Gujarkar
