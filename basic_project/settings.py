@@ -64,16 +64,17 @@ WSGI_APPLICATION = 'basic_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('postgres'),
-        'USER': os.getenv('postgres.dboumksfmrvhuilylrqr'),
-        'PASSWORD': os.getenv('RJxyS7Zr7otmG9js'),
-        'HOST': os.getenv('aws-1-ap-southeast-1.pooler.supabase.com'),
-        'PORT': os.getenv('aws-1-ap-southeast-1.pooler.supabase.com', '5432'),
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT', '5432'),
         'OPTIONS': {
-            'sslmode': 'require',
+            'sslmode': os.getenv('DB_SSLMODE', 'require'),
         },
     }
 }
+
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
